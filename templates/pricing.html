@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Pricing{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-4xl font-bold text-center">Pricing</h1>
+    <p class="text-lg text-center">We offer competitive pricing plans to suit your needs:</p>
+    <div class="flex flex-wrap justify-center mt-8">
+        <div class="max-w-sm rounded overflow-hidden shadow-lg m-4">
+            <img class="w-full" src="{{ url_for('static', filename='images/basic_plan.jpg') }}" alt="Basic Plan">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2">Basic Plan</div>
+                <p class="text-gray-700 text-base">$10/month</p>
+                <p class="text-gray-700 text-base">Access to basic features.</p>
+            </div>
+        </div>
+        <div class="max-w-sm rounded overflow-hidden shadow-lg m-4">
+            <img class="w-full" src="{{ url_for('static', filename='images/premium_plan.jpg') }}" alt="Premium Plan">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2">Premium Plan</div>
+                <p class="text-gray-700 text-base">$30/month</p>
+                <p class="text-gray-700 text-base">Access to all features and priority support.</p>
+            </div>
+        </div>
+        <div class="max-w-sm rounded overflow-hidden shadow-lg m-4">
+            <img class="w-full" src="{{ url_for('static', filename='images/enterprise_plan.jpg') }}" alt="Enterprise Plan">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2">Enterprise Plan</div>
+                <p class="text-gray-700 text-base">Contact us for pricing</p>
+                <p class="text-gray-700 text-base">Custom solutions for your business.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
