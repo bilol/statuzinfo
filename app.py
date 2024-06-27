@@ -1,4 +1,3 @@
-import os
 from flask import Flask, render_template, redirect, url_for, flash, request, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -9,11 +8,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_migrate import Migrate
 from sqlalchemy.exc import IntegrityError
 import pandas as pd
+import os
 from config import config
+
 
 app = Flask(__name__)
 config_name = os.getenv('FLASK_CONFIG', 'default')
 app.config.from_object(config[config_name])
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -24,6 +26,7 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# User model definition
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
@@ -31,6 +34,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(200), nullable=False)
     subscription = db.Column(db.String(100), nullable=True)
 
+# Registration form definition
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=150)])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -38,39 +42,28 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
+# Login form definition
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
-class EditProfileForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=150)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Update')
-
-class SubscriptionForm(FlaskForm):
-    subscription = StringField('Subscription Plan', validators=[DataRequired()])
-    submit = SubmitField('Update Subscription')
-
+# Define routes
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        existing_user = User.query.filter_by(email=form.email.data).first()
-        if existing_user is None:
-            hashed_password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
-            user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        hashed_password = generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        try:
             db.session.add(user)
-            try:
-                db.session.commit()
-                flash('Your account has been created!', 'success')
-                return redirect(url_for('login'))
-            except IntegrityError:
-                db.session.rollback()
-                flash('Email already registered. Please use a different email address.', 'danger')
-        else:
-            flash('Email already registered. Please use a different email address.', 'danger')
+            db.session.commit()
+            flash('Your account has been created! You are now able to log in', 'success')
+            return redirect(url_for('login'))
+        except IntegrityError:
+            db.session.rollback()
+            flash('Username or email already exists', 'danger')
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -80,44 +73,9 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            return redirect(url_for('profile'))
-        else:
-            flash('Login Unsuccessful. Please check email and password', 'danger')
+            return redirect(url_for('index'))
+        flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
-
-@app.route('/profile')
-@login_required
-def profile():
-    return render_template('profile.html')
-
-@app.route('/edit_profile', methods=['GET', 'POST'])
-@login_required
-def edit_profile():
-    form = EditProfileForm(obj=current_user)
-    if form.validate_on_submit():
-        current_user.username = form.username.data
-        current_user.email = form.email.data
-        db.session.commit()
-        flash('Your profile has been updated!', 'success')
-        return redirect(url_for('profile'))
-    return render_template('edit_profile.html', title='Edit Profile', form=form)
-
-@app.route('/manage_subscriptions', methods=['GET', 'POST'])
-@login_required
-def manage_subscriptions():
-    form = SubscriptionForm(obj=current_user)
-    if form.validate_on_submit():
-        current_user.subscription = form.subscription.data
-        db.session.commit()
-        flash('Your subscription has been updated!', 'success')
-        return redirect(url_for('profile'))
-    return render_template('manage_subscriptions.html', title='Manage Subscriptions', form=form)
 
 @app.route('/')
 def index():
@@ -131,9 +89,6 @@ def about():
 def team():
     return render_template('team.html', title='Team')
 
-@app.route('/pricing')
-def pricing():
-    return render_template('pricing.html', title='Pricing')
 
 @app.route('/companies')
 def companies_list():
@@ -145,6 +100,14 @@ def companies_list():
     except Exception as e:
         print(f"Error reading data from Excel file: {e}")
         return render_template('companies.html', companies=[], title='Companies')
+
+@app.route('/partnerships')
+def partnerships():
+    return render_template('partnerships.html', title='Partnerships')
+
+@app.route('/pricing')
+def pricing():
+    return render_template('pricing.html', title='Pricing')
 
 @app.route('/company/<int:company_id>')
 def company_detail(company_id):

@@ -4,9 +4,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     APP_NAME = "StatuzInfo"
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'your_secret_key'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'site.db')
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'your_default_secret_key')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///' + os.path.join(basedir, 'site.db'))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DATA_FILE_PATH = os.path.join(basedir, 'data.xlsx')
 
