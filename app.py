@@ -1,3 +1,9 @@
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 from flask import Flask, render_template, redirect, url_for, flash, request, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -6,11 +12,9 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_migrate import Migrate
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 import pandas as pd
-import os
 from config import config
-
 
 app = Flask(__name__)
 config_name = os.getenv('FLASK_CONFIG', 'default')
@@ -26,7 +30,6 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# User model definition
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
@@ -34,7 +37,6 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(200), nullable=False)
     subscription = db.Column(db.String(100), nullable=True)
 
-# Registration form definition
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=150)])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -42,28 +44,37 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
-# Login form definition
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
-# Define routes
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = generate_password_hash(form.password.data).decode('utf-8')
+        hashed_password = generate_password_hash(form.password.data)
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         try:
             db.session.add(user)
             db.session.commit()
             flash('Your account has been created! You are now able to log in', 'success')
             return redirect(url_for('login'))
-        except IntegrityError:
+        except IntegrityError as e:
             db.session.rollback()
             flash('Username or email already exists', 'danger')
+            print(f"IntegrityError: {e}")
+        except OperationalError as e:
+            db.session.rollback()
+            flash('Database connection error. Please try again later.', 'danger')
+            print(f"OperationalError: {e}")
+        except Exception as e:
+            db.session.rollback()
+            flash('An unexpected error occurred. Please try again.', 'danger')
+            print(f"Unexpected error: {e}")
+    else:
+        print("Form errors:", form.errors)
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -88,7 +99,6 @@ def about():
 @app.route('/team')
 def team():
     return render_template('team.html', title='Team')
-
 
 @app.route('/companies')
 def companies_list():
@@ -128,7 +138,6 @@ def company_detail(company_id):
 @app.context_processor
 def inject_app_name():
     return dict(APP_NAME=current_app.config['APP_NAME'])
-
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
