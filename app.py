@@ -6,7 +6,7 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 
 @app.route('/')
 def index():
-    return redirect(url_for('companies_list'))
+    return render_template('index.html')
 
 @app.route('/about')
 def about():
@@ -20,10 +20,10 @@ def team():
 def pricing():
     return render_template('pricing.html')
 
-@app.route('/companies', methods=['GET'])
+@app.route('/companies')
 def companies_list():
     try:
-        file_path = 'FLASK/data.xlsx'
+        file_path = 'data.xlsx'
         df = pd.read_excel(file_path)
         companies = df.to_dict(orient='records')
         return render_template('companies.html', companies=companies)
@@ -34,7 +34,7 @@ def companies_list():
 @app.route('/company/<int:company_id>')
 def company_detail(company_id):
     try:
-        file_path = 'FLASK/data.xlsx'
+        file_path = 'data.xlsx'
         df = pd.read_excel(file_path)
         if company_id < len(df):
             company = df.iloc[company_id].to_dict()
@@ -51,4 +51,4 @@ def partnerships():
     return render_template('partnerships.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
