@@ -23,8 +23,34 @@ body {
 }
 
 h1 {
-    font-size: 2.5em;
+    font-size: 4rem; /* Increased font size for better readability */
     margin-bottom: 1em;
+    color: #2d3748; /* Tailwind CSS color for gray-900 */
+}
+
+h2 {
+    font-size: 2.5rem; /* Font size for subheadings */
+    color: #2d3748; /* Tailwind CSS color for gray-900 */
+}
+
+p {
+    font-size: 1.25rem; /* Increased font size for better readability */
+    color: #4a5568; /* Tailwind CSS color for gray-700 */
+    margin-bottom: 1.5em; /* Added margin for better spacing */
+}
+
+ul.list-disc {
+    padding-left: 1.5rem;
+}
+
+li.mb-2 {
+    margin-bottom: 0.5rem;
+    transition: color 0.3s; /* Smooth transition for color changes */
+}
+
+li.mb-2:hover,
+li.mb-2:focus {
+    color: #2b6cb0; /* Tailwind CSS color for blue-500 */
 }
 
 .btn {
@@ -33,6 +59,9 @@ h1 {
 
 .container {
     animation: fadeIn 1s;
+    max-width: 1200px; /* Added max-width for better layout */
+    margin: 0 auto; /* Center the container */
+    padding: 0 1rem; /* Added padding for better spacing */
 }
 
 .jumbotron {
@@ -51,3 +80,95 @@ h1 {
 }
 
 @import "https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css";
+
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Ensure particles are behind other content */
+}
+
+.swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.partner-logo {
+    width: 100%;
+    height: 150px;
+    object-fit: contain; /* Ensures the aspect ratio is maintained */
+    padding: 10px; /* Optional: Add some padding if needed */
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: #2d3748; /* Tailwind CSS color for gray-900 */
+}
+
+.swiper-pagination-bullet-active {
+    background: #2b6cb0; /* Tailwind CSS color for blue-500 */
+}
+
+.text-center h1 {
+    font-size: 6rem;
+    font-weight: 800;
+    color: #2d3748; /* Tailwind CSS color for gray-900 */
+}
+
+.text-center p {
+    font-size: 1.5rem;
+    color: #4a5568; /* Tailwind CSS color for gray-700 */
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.transform {
+    transition: transform 0.3s ease;
+}
+
+.hover\:scale-105:hover,
+.focus\:scale-105:focus {
+    transform: scale(1.05);
+}
+
+.transition {
+    transition: all 0.3s ease;
+}
+
+.list-none {
+    list-style: none;
+}
+
+.space-y-4 > * + * {
+    margin-top: 1rem;
+}

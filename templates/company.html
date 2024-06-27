@@ -1,50 +1,49 @@
 {% extends 'layouts/base.html' %}
+
 {% block title %}Company Details{% endblock %}
+
 {% block content %}
-<div class="container mx-auto mt-5">
-    <h1 class="text-4xl font-bold mb-8"><i class="fas fa-building"></i> Company Details</h1>
+<div class="container mx-auto mt-12 px-4">
+    <h1 class="text-5xl font-bold text-center text-gray-900 mb-12"><i class="fas fa-building text-blue-500"></i> Company Details</h1>
     {% if company %}
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-semibold mb-4">Basic Information</h2>
-            <ul class="list-group">
-                <li class="list-group-item"><strong>INN:</strong> {{ company['INN'] }}</li>
-                <li class="list-group-item"><strong>Company Name:</strong> {{ company['Yuridik shaxsning nomi'] }}</li>
-                <li class="list-group-item"><strong>Registered Date:</strong> {{ company['Davlat ro’yxatidan o’tkazilgan sana'] }}</li>
-                <li class="list-group-item"><strong>Registration Number:</strong> {{ company['Davlat ro’yxatidan o’tkazilgan raqami'] }}</li>
-                <li class="list-group-item"><strong>Organizational and Legal Form:</strong> {{ company['Tashkiliy-huquqiy shakli'] }}</li>
-                <li class="list-group-item"><strong>IFUT Code:</strong> {{ company['IFUT kodi (Amalga oshirilayotgan faoliyat tur(lar)i)'] }}</li>
-                <li class="list-group-item"><strong>DBIBT Code:</strong> {{ company['DBIBT kodi'] }}</li>
-                <li class="list-group-item"><strong>Small Business Entity:</strong> {{ company['Kichik tadbirkorlik sub`ektlariga mansubligi'] }}</li>
-                <li class="list-group-item"><strong>Activity Status:</strong> {{ company['Faollik holati'] }}</li>
-                <li class="list-group-item"><strong>Capital:</strong> {{ company['Ustav fondi'] }}</li>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-white p-8 rounded-lg shadow-md mx-auto w-full lg:w-96">
+            <h2 class="text-3xl font-semibold text-gray-900 mb-6">Basic Information</h2>
+            <ul class="list-none space-y-4 text-lg text-gray-700">
+                <li><i class="fas fa-id-card-alt text-blue-500 mr-2"></i><strong>INN:</strong> {{ company['INN'] }}</li>
+                <li><i class="fas fa-building text-blue-500 mr-2"></i><strong>Company Name:</strong> {{ company['Yuridik shaxsning nomi'] }}</li>
+                <li><i class="fas fa-calendar-alt text-blue-500 mr-2"></i><strong>Registered Date:</strong> {{ company['Davlat ro’yxatidan o’tkazilgan sana'] }}</li>
+                <li><i class="fas fa-file-alt text-blue-500 mr-2"></i><strong>Registration Number:</strong> {{ company['Davlat ro’yxatidan o’tkazilgan raqami'] }}</li>
+                <li><i class="fas fa-university text-blue-500 mr-2"></i><strong>Organizational and Legal Form:</strong> {{ company['Tashkiliy-huquqiy shakli'] }}</li>
+                <li><i class="fas fa-code text-blue-500 mr-2"></i><strong>IFUT Code:</strong> {{ company['IFUT kodi (Amalga oshirilayotgan faoliyat tur(lar)i)'] }}</li>
+                <li><i class="fas fa-barcode text-blue-500 mr-2"></i><strong>DBIBT Code:</strong> {{ company['DBIBT kodi'] }}</li>
+                <li><i class="fas fa-briefcase text-blue-500 mr-2"></i><strong>Small Business Entity:</strong> {{ company['Kichik tadbirkorlik sub`ektlariga mansubligi'] }}</li>
+                <li><i class="fas fa-check-circle text-blue-500 mr-2"></i><strong>Activity Status:</strong> {{ company['Faollik holati'] }}</li>
+                <li><i class="fas fa-coins text-blue-500 mr-2"></i><strong>Capital:</strong> {{ company['Ustav fondi'] }}</li>
             </ul>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md">
-            <h2 class="text-2xl font-semibold mb-4">Contact Information</h2>
-            <ul class="list-group">
-                <li class="list-group-item"><strong>Phone Number:</strong> {{ company['Aloqa telefoni'] }}</li>
-                <li class="list-group-item"><strong>Email:</strong> {{ company['Elektron pochta manzili'] }}</li>
-                <li class="list-group-item"><strong>Address (MHOBT Code):</strong> {{ company['MHOBT kodi'] }}</li>
-                <li class="list-group-item"><strong>Street, House, Apartment:</strong> {{ company['Ko’cha, uy, xonadon'] }}</li>
-                <li class="list-group-item"><strong>Manager Name:</strong> {{ company['Rahbarning F.I.SH.'] }}</li>
+        <div class="bg-white p-8 rounded-lg shadow-md mx-auto w-full lg:w-96">
+            <h2 class="text-3xl font-semibold text-gray-900 mb-6">Contact Information</h2>
+            <ul class="list-none space-y-4 text-lg text-gray-700">
+                <li><i class="fas fa-phone text-blue-500 mr-2"></i><strong>Phone Number:</strong> {{ company['Aloqa telefoni'] }}</li>
+                <li><i class="fas fa-envelope text-blue-500 mr-2"></i><strong>Email:</strong> {{ company['Elektron pochta manzili'] }}</li>
+                <li><i class="fas fa-map-marker-alt text-blue-500 mr-2"></i><strong>Address (MHOBT Code):</strong> {{ company['MHOBT kodi'] }}</li>
+                <li><i class="fas fa-home text-blue-500 mr-2"></i><strong>Street, House, Apartment:</strong> {{ company['Ko’cha, uy, xonadon'] }}</li>
+                <li><i class="fas fa-user-tie text-blue-500 mr-2"></i><strong>Manager Name:</strong> {{ company['Rahbarning F.I.SH.'] }}</li>
             </ul>
         </div>
-    </div>
-    <div class="bg-white p-6 rounded-lg shadow-md mt-4">
-        <h2 class="text-2xl font-semibold mb-4">Shareholders</h2>
-        <ul class="list-group">
-            <li class="list-group-item"><strong>Shareholder 1:</strong> {{ company['shareholder 1'] }}</li>
-            <li class="list-group-item"><strong>Shareholder 2:</strong> {{ company['shareholder 2'] }}</li>
-            <li class="list-group-item"><strong>Shareholder 3:</strong> {{ company['shareholder 3'] }}</li>
-            <li class="list-group-item"><strong>Shareholder 4:</strong> {{ company['shareholder 4'] }}</li>
-        </ul>
+        <div class="bg-white p-8 rounded-lg shadow-md mx-auto w-full lg:w-96">
+            <h2 class="text-3xl font-semibold text-gray-900 mb-6">Shareholders</h2>
+            <ul class="list-none space-y-4 text-lg text-gray-700">
+                <li><i class="fas fa-user-friends text-blue-500 mr-2"></i><strong>Shareholder 1:</strong> {{ company['shareholder 1'] }}</li>
+                <li><i class="fas fa-user-friends text-blue-500 mr-2"></i><strong>Shareholder 2:</strong> {{ company['shareholder 2'] }}</li>
+                <li><i class="fas fa-user-friends text-blue-500 mr-2"></i><strong>Shareholder 3:</strong> {{ company['shareholder 3'] }}</li>
+                <li><i class="fas fa-user-friends text-blue-500 mr-2"></i><strong>Shareholder 4:</strong> {{ company['shareholder 4'] }}</li>
+            </ul>
+        </div>
     </div>
     {% else %}
-    <p class="alert alert-warning">No details available for this company.</p>
+    <p class="alert alert-warning text-lg text-gray-700 mt-8">No details available for this company.</p>
     {% endif %}
-    <a href="{{ url_for('companies_list') }}" class="btn btn-secondary mt-6 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">
-        <i class="fas fa-arrow-left"></i> Back to Company List
-    </a>
 </div>
 {% endblock %}

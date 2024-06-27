@@ -3,34 +3,30 @@
 {% block title %}Companies{% endblock %}
 
 {% block content %}
-<div class="container mt-5 mx-auto py-12">
-    <h1 class="text-4xl font-bold text-center mb-8"><i class="fas fa-building"></i> Companies</h1>
-    <div class="overflow-x-auto">
-        <table class="table-auto w-full bg-white shadow-md rounded-lg">
-            <thead class="bg-gray-800 text-white">
-                <tr>
-                    <th class="px-4 py-2">INN</th>
-                    <th class="px-4 py-2">Company Name</th>
-                    <th class="px-4 py-2">Details</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for company in companies %}
-                <tr class="bg-gray-100 border-b hover:bg-gray-200">
-                    <td class="px-4 py-2">{{ company['INN'] }}</td>
-                    <td class="px-4 py-2">{{ company['Yuridik shaxsning nomi'] }}</td>
-                    <td class="px-4 py-2 text-center">
-                        <a href="{{ url_for('company_detail', company_id=loop.index0) }}" class="btn btn-primary bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600">
-                            <i class="fas fa-info-circle"></i> View Details
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="container mt-12">
+    <h1 class="text-5xl font-bold text-center text-gray-900 mb-8"><i class="fas fa-building text-blue-500"></i> Companies</h1>
+    <p class="text-xl text-center text-gray-700 mb-8">We are proud to present our list of partner companies.</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {% for company in companies %}
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105 focus:scale-105 p-4">
+            <div class="mb-4">
+                <h2 class="text-2xl font-semibold text-gray-900 mb-2 flex items-center">
+                    <i class="fas fa-building text-blue-500 mr-2"></i> 
+                    {{ company['Yuridik shaxsning nomi'] }}
+                </h2>
+                <p class="text-gray-700 flex items-center mb-4">
+                    <i class="fas fa-id-badge text-gray-500 mr-2"></i> 
+                    {{ company['INN'] }}
+                </p>
+                <a href="{{ url_for('company_detail', company_id=loop.index0) }}" class="inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:bg-blue-600 transition">
+                    <i class="fas fa-info-circle mr-2"></i>View Details
+                </a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
     {% if not companies %}
-    <p class="text-center mt-4">No companies found.</p>
+    <p class="text-center text-gray-700 mt-4">No companies found.</p>
     {% endif %}
 </div>
 {% endblock %}

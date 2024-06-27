@@ -1,8 +1,27 @@
 {% extends 'layouts/base.html' %}
+
 {% block title %}About Us{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4 large-font"><i class="fas fa-info-circle"></i> About Us</h1>
-    <p>Welcome to our company. Here you will find more information about what we do and our mission.</p>
+<div class="container mt-12">
+    <h1 class="text-5xl font-bold text-center text-gray-900 mb-8"><i class="fas fa-info-circle text-blue-500"></i> About Us</h1>
+    <p class="text-xl text-center text-gray-700 mb-8">Welcome to {{ APP_NAME }}! We are dedicated to providing top-notch solutions for your needs.</p>
+    
+    <div class="bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Our Mission</h2>
+        <p class="text-lg text-gray-700 mb-6">Our mission is to deliver innovative and effective solutions that help businesses thrive in the digital age. We strive to exceed our clients' expectations and build lasting relationships based on trust and excellence.</p>
+        
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Our Values</h2>
+        <ul class="list-disc list-inside text-lg text-gray-700 mb-6">
+            <li class="mb-2 hover:text-blue-500 focus:text-blue-500">Integrity: We uphold the highest standards of integrity in all of our actions.</li>
+            <li class="mb-2 hover:text-blue-500 focus:text-blue-500">Customer Focus: We value our customers and are dedicated to meeting their needs.</li>
+            <li class="mb-2 hover:text-blue-500 focus:text-blue-500">Innovation: We embrace innovation to create value and stay ahead in the market.</li>
+            <li class="mb-2 hover:text-blue-500 focus:text-blue-500">Excellence: We strive for excellence in everything we do.</li>
+            <li class="mb-2 hover:text-blue-500 focus:text-blue-500">Teamwork: We work together, across boundaries, to meet the needs of our customers and to help the company win.</li>
+        </ul>
+
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Our Team</h2>
+        <p class="text-lg text-gray-700 mb-6">Our team consists of experienced professionals who are passionate about what they do. We are committed to fostering a culture of continuous learning and improvement.</p>
+    </div>
 </div>
 {% endblock %}

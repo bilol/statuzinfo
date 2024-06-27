@@ -129,6 +129,7 @@ def company_detail(company_id):
 def inject_app_name():
     return dict(APP_NAME=current_app.config['APP_NAME'])
 
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
