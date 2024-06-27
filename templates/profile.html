@@ -1,0 +1,12 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-bold mb-6">Profile</h2>
+    <p class="text-lg"><strong>Username:</strong> {{ current_user.username }}</p>
+    <p class="text-lg"><strong>Email:</strong> {{ current_user.email }}</p>
+    <p class="text-lg"><strong>Subscription:</strong> {{ current_user.subscription }}</p>
+</div>
+{% endblock %}

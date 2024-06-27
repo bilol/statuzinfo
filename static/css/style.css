@@ -47,3 +47,5 @@ h1 {
         opacity: 1;
     }
 }
+
+@import "https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css";
